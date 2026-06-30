@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1RST GYM — Train First. Train Hard.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#050505;
+  --charcoal:#141414;
+  --charcoal-2:#1d1d1d;
+  --yellow:#f4d500;
+  --yellow-dim:#7a6b00;
+  --white:#f5f5f0;
+  --gray:#8a8a85;
+  --gray-dim:#4a4a47;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:'Work Sans',sans-serif;
+  overflow-x:hidden;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+}
+h1,h2,h3,.display{
+  font-family:'Anton',sans-serif;
+  font-weight:400;
+  text-transform:uppercase;
+  letter-spacing:0.01em;
+  line-height:0.95;
+}
+.mono{font-family:'Roboto Mono',monospace;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
+button,.btn{
+  font-family:'Work Sans',sans-serif;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  font-size:14px;
+  cursor:pointer;
+  border:none;
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+}
+.btn-fill{
+  background:var(--yellow);
+  color:var(--black);
+  padding:16px 30px;
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 100%,14px 100%);
+  transition:transform .2s ease, filter .2s ease;
+}
+.btn-fill:hover{transform:translateY(-2px); filter:brightness(1.08);}
+.btn-line{
+  background:transparent;
+  color:var(--white);
+  padding:16px 30px;
+  border:1px solid var(--gray-dim);
+  clip-path:polygon(0 0,calc(100% - 14px) 0,100% 100%,14px 100%);
+  transition:border-color .2s ease, color .2s ease;
+}
+.btn-line:hover{border-color:var(--yellow); color:var(--yellow);}
+
+/* ---------- NAV ---------- */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:22px 0;
+  transition:background .3s ease, padding .3s ease, border-color .3s ease;
+  border-bottom:1px solid transparent;
+}
+header.solid{
+  background:rgba(5,5,5,0.92);
+  backdrop-filter:blur(8px);
+  padding:14px 0;
+  border-bottom:1px solid var(--charcoal-2);
+}
+nav{display:flex; align-items:center; justify-content:space-between;}
+.logo-mark{display:flex; align-items:center; gap:2px; font-size:22px;}
+.logo-mark .f1{color:var(--white);}
+.logo-mark .gym{color:var(--yellow);}
+.nav-links{display:flex; gap:36px; font-size:13px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em;}
+.nav-links a{position:relative; padding-bottom:4px; color:var(--gray);transition:color .2s ease;}
+.nav-links a:hover{color:var(--white);}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--yellow);transition:width .25s ease;}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{font-size:12px; padding:12px 22px;}
+.burger{display:none; flex-direction:column; gap:5px; background:none; padding:6px;}
+.burger span{width:24px; height:2px; background:var(--white);}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding-top:120px;
+  background:
+    linear-gradient(115deg, var(--black) 0%, var(--black) 48%, #0d0d00 49%, var(--black) 100%);
+  overflow:hidden;
+}
+.bolt-bg{
+  position:absolute; top:0; right:-6%; height:140%; width:55%;
+  background:var(--yellow);
+  clip-path:polygon(62% 0, 100% 0, 38% 46%, 70% 46%, 18% 100%, 0 100%, 46% 50%, 16% 50%);
+  opacity:0.08;
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid; grid-template-columns:1.15fr 0.85fr; gap:40px; align-items:center;
+  width:100%;
+}
+.eyebrow{
+  font-family:'Roboto Mono',monospace; font-size:13px; letter-spacing:0.18em; color:var(--yellow);
+  display:flex; align-items:center; gap:10px; margin-bottom:22px; text-transform:uppercase;
+  opacity:0; animation:riseIn .7s ease forwards; animation-delay:.1s;
+}
+.eyebrow::before{content:'';width:28px;height:2px;background:var(--yellow);}
+.hero h1{
+  font-size:clamp(54px,8vw,108px);
+  opacity:0; animation:riseIn .8s ease forwards; animation-delay:.25s;
+}
+.hero h1 .accent{color:var(--yellow);}
+.hero p{
+  font-size:18px; color:var(--gray); max-width:480px; margin:26px 0 38px; line-height:1.6;
+  opacity:0; animation:riseIn .8s ease forwards; animation-delay:.4s;
+}
+.hero-actions{display:flex; gap:18px; opacity:0; animation:riseIn .8s ease forwards; animation-delay:.55s;}
+@keyframes riseIn{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);}}
+
+.hero-stats{
+  display:flex; gap:0; margin-top:64px; border-top:1px solid var(--charcoal-2); padding-top:24px;
+  opacity:0; animation:riseIn .8s ease forwards; animation-delay:.7s;
+}
+.hero-stats div{padding-right:36px; margin-right:36px; border-right:1px solid var(--charcoal-2);}
+.hero-stats div:last-child{border-right:none;}
+.hero-stats .num{font-family:'Anton',sans-serif; font-size:34px; color:var(--white);}
+.hero-stats .label{font-size:12px; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-top:4px;}
+
+.hero-figure{
+  position:relative; height:560px;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; animation:riseIn 1s ease forwards; animation-delay:.5s;
+}
+.hero-figure svg{height:100%; width:auto;}
+
+/* ---------- SECTION SCAFFOLD ---------- */
+section{position:relative; padding:120px 0;}
+.section-head{margin-bottom:60px; max-width:640px;}
+.section-tag{
+  font-family:'Roboto Mono',monospace; font-size:13px; color:var(--yellow); letter-spacing:0.16em;
+  text-transform:uppercase; display:flex; align-items:center; gap:10px; margin-bottom:16px;
+}
+.section-tag::before{content:'';width:24px;height:2px;background:var(--yellow);}
+.section-head h2{font-size:clamp(34px,4.2vw,52px);}
+.section-head .sub{color:var(--gray); font-size:16px; margin-top:18px; line-height:1.6;}
+
+.zigzag-top{
+  position:absolute; top:-1px; left:0; width:100%; height:46px;
+  clip-path:polygon(0 100%,0 40%,8% 0,16% 40%,24% 0,32% 40%,40% 0,48% 40%,56% 0,64% 40%,72% 0,80% 40%,88% 0,96% 40%,100% 0,100% 100%);
+}
+
+/* ---------- MANIFESTO (split) ---------- */
+.manifesto{
+  background:var(--black);
+  display:grid; grid-template-columns:1fr 1fr; min-height:420px;
+  padding:0;
+}
+.manifesto-half{padding:90px 60px; display:flex; flex-direction:column; justify-content:center; position:relative;}
+.manifesto-half.dark{background:var(--charcoal);}
+.manifesto-half.bright{background:var(--yellow); color:var(--black);}
+.manifesto-half h3{font-size:clamp(26px,3vw,38px); margin-bottom:18px;}
+.manifesto-half.bright h3{color:var(--black);}
+.manifesto-half p{color:var(--gray); line-height:1.7; font-size:15px;}
+.manifesto-half.bright p{color:#3a3300;}
+.manifesto-divider{
+  position:absolute; top:0; left:50%; height:100%; width:90px; transform:translateX(-50%);
+  background:var(--black);
+  clip-path:polygon(62% 0, 100% 0, 38% 50%, 78% 50%, 18% 100%, 0 100%, 46% 48%, 8% 48%);
+  z-index:2;
+}
+
+/* ---------- PROGRAMS ---------- */
+.programs-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--charcoal-2);}
+.program-card{background:var(--black); padding:42px 34px; transition:background .25s ease;}
+.program-card:hover{background:var(--charcoal);}
+.program-num{font-family:'Roboto Mono',monospace; color:var(--gray-dim); font-size:13px;}
+.program-card h3{font-size:26px; margin:18px 0 14px;}
+.program-card p{color:var(--gray); font-size:14px; line-height:1.65;}
+.program-meta{margin-top:22px; display:flex; gap:18px; font-family:'Roboto Mono',monospace; font-size:12px; color:var(--yellow);}
+
+/* ---------- SCHEDULE ---------- */
+.schedule-table{width:100%; border-collapse:collapse;}
+.schedule-group-tag{
+  font-size:13px; color:var(--yellow); text-transform:uppercase; letter-spacing:0.1em;
+  padding:14px 18px; background:var(--black); border:1px solid var(--charcoal-2); border-bottom:none;
+}
+.schedule-table th{
+  text-align:left; font-family:'Roboto Mono',monospace; font-size:12px; text-transform:uppercase;
+  letter-spacing:0.08em; color:var(--gray); padding:14px 18px; border-bottom:1px solid var(--charcoal-2);
+}
+.schedule-table td{padding:18px; border-bottom:1px solid var(--charcoal-2); font-size:14px;}
+.schedule-table tr:hover td{background:var(--charcoal);}
+.schedule-table .time{font-family:'Roboto Mono',monospace; color:var(--yellow);}
+.schedule-table .class-name{font-weight:700; text-transform:uppercase; letter-spacing:0.02em;}
+.tag-pill{
+  display:inline-block; font-family:'Roboto Mono',monospace; font-size:11px; padding:4px 10px;
+  border:1px solid var(--gray-dim); color:var(--gray); text-transform:uppercase;
+}
+
+/* ---------- PRICING ---------- */
+.pricing-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+.price-card{
+  background:var(--charcoal); padding:42px 34px; display:flex; flex-direction:column;
+  border:1px solid var(--charcoal-2); transition:transform .25s ease, border-color .25s ease;
+}
+.price-card:hover{transform:translateY(-6px); border-color:var(--yellow-dim);}
+.price-card.featured{
+  background:var(--yellow); color:var(--black); position:relative; transform:scale(1.03);
+}
+.price-card.featured:hover{transform:scale(1.03) translateY(-6px);}
+.price-tier{font-family:'Roboto Mono',monospace; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; color:var(--gray);}
+.price-card.featured .price-tier{color:#3a3300;}
+.price-amount{font-family:'Anton',sans-serif; font-size:44px; margin:14px 0 4px; white-space:nowrap;}
+.price-period{color:var(--gray); font-size:13px;}
+.price-card.featured .price-period{color:#3a3300;}
+.price-list{list-style:none; margin:28px 0 32px; flex-grow:1;}
+.price-list li{font-size:14px; padding:10px 0; border-top:1px solid var(--charcoal-2); color:var(--gray);}
+.price-card.featured .price-list li{border-top:1px solid rgba(0,0,0,0.15); color:#3a3300;}
+.price-list li::before{content:'+ '; color:var(--yellow); font-weight:700;}
+.price-card.featured .price-list li::before{color:var(--black);}
+.price-card .btn-line{width:100%; justify-content:center;}
+.price-card.featured .btn-fill{width:100%; justify-content:center; background:var(--black); color:var(--yellow);}
+.featured-badge{
+  position:absolute; top:-13px; right:30px; background:var(--black); color:var(--yellow);
+  font-family:'Roboto Mono',monospace; font-size:11px; padding:6px 14px; letter-spacing:0.1em; text-transform:uppercase;
+}
+
+/* ---------- PAYMENT METHODS ---------- */
+.payment-methods{margin-top:72px; padding-top:56px; border-top:1px solid var(--charcoal-2);}
+.payment-methods-head h3{
+  font-family:'Anton',sans-serif; text-transform:uppercase; font-size:24px; margin-bottom:8px;
+}
+.payment-methods-head p{color:var(--gray); font-size:14px; margin-bottom:28px;}
+.payment-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px;}
+.payment-card{
+  background:var(--charcoal); border:1px solid var(--charcoal-2); padding:22px 24px;
+  display:flex; align-items:center; gap:18px; transition:border-color .2s ease;
+}
+.payment-card:hover{border-color:var(--yellow-dim);}
+.payment-icon{font-size:26px; line-height:1; flex-shrink:0;}
+.payment-info{flex-grow:1; min-width:0;}
+.payment-info h4{font-size:13px; text-transform:uppercase; letter-spacing:0.06em; color:var(--gray); margin-bottom:6px;}
+.payment-value{font-size:18px; color:var(--white); letter-spacing:0.02em;}
+.payment-copy{padding:10px 18px; font-size:12px; flex-shrink:0;}
+.payment-note{color:var(--gray); font-size:13px; line-height:1.6; margin-top:22px; max-width:560px;}
+
+/* ---------- COACHES ---------- */
+.coach-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+.coach-grid-2{grid-template-columns:repeat(2,1fr); max-width:680px; margin:0 auto; gap:40px;}
+.coach-card{position:relative; overflow:hidden;}
+.coach-photo{
+  aspect-ratio:3/4; background:var(--black); position:relative; display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--charcoal-2); overflow:hidden;
+}
+.coach-figure{width:62%; height:auto; position:relative; z-index:1; transition:transform .35s ease;}
+.coach-card:hover .coach-figure{transform:scale(1.05);}
+.coach-bolt{position:absolute; bottom:0; right:0; width:46%; height:46%; background:var(--yellow); opacity:0;
+  clip-path:polygon(62% 0, 100% 0, 38% 46%, 70% 46%, 18% 100%, 0 100%, 46% 50%, 16% 50%); transition:opacity .3s ease;}
+.coach-card:hover .coach-bolt{opacity:0.9;}
+.coach-name{font-size:18px; text-transform:uppercase; margin-top:18px;}
+.coach-role{font-family:'Roboto Mono',monospace; font-size:12px; color:var(--yellow); margin-top:4px; text-transform:uppercase; letter-spacing:0.06em;}
+
+/* ---------- GALLERY ---------- */
+.gallery-grid{display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:160px; gap:6px;}
+.gallery-tile{position:relative; overflow:hidden;}
+.gallery-tile:nth-child(1){grid-column:span 2; grid-row:span 2;}
+.gallery-tile:nth-child(4){grid-row:span 2;}
+.gallery-tile:nth-child(6){grid-column:span 2;}
+.gtile-bg{
+  position:absolute; inset:0;
+  background:linear-gradient(135deg,var(--charcoal),var(--black));
+  display:flex; align-items:center; justify-content:center;
+  transition:transform .4s ease;
+}
+.gallery-tile:hover .gtile-bg{transform:scale(1.06);}
+.gtile-bg svg{width:36%; opacity:0.5;}
+.gallery-tile img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease;}
+.gallery-tile:hover img{transform:scale(1.06);}
+
+/* ---------- MEMBERS PANEL ---------- */
+.members-panel{background:var(--black); border:1px solid var(--charcoal-2); padding:40px;}
+.member-form{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr auto; gap:16px; align-items:end;}
+.member-form .form-field{margin-bottom:0;}
+.member-form button{height:50px; white-space:nowrap;}
+.members-count{font-family:'Roboto Mono',monospace; font-size:12px; color:var(--gray); margin-top:28px; margin-bottom:8px;}
+.btn-del{padding:8px 14px !important; font-size:11px !important;}
+.btn-del:hover{border-color:#e34a4a !important; color:#e34a4a !important;}
+.members-empty{font-family:'Roboto Mono',monospace; font-size:13px; color:var(--gray-dim); padding:24px 0;}
+.storage-note{
+  margin-top:18px; font-size:12px; color:var(--gray-dim); border-top:1px solid var(--charcoal-2);
+  padding-top:16px; line-height:1.6;
+}
+
+/* ---------- TESTIMONIAL STRIP ---------- */
+.ticker-strip{
+  background:var(--yellow); color:var(--black); padding:22px 0; overflow:hidden; white-space:nowrap;
+}
+.ticker-track{display:inline-flex; gap:60px; animation:scrollLeft 28s linear infinite;}
+.ticker-track span{font-family:'Anton',sans-serif; font-size:22px; text-transform:uppercase; display:inline-flex; align-items:center; gap:60px;}
+@keyframes scrollLeft{from{transform:translateX(0);} to{transform:translateX(-50%);}}
+
+/* ---------- CONTACT ---------- */
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:60px;}
+.contact-info .info-row{display:flex; gap:18px; padding:22px 0; border-bottom:1px solid var(--charcoal-2);}
+.info-icon{width:20px; height:20px; flex-shrink:0; margin-top:2px; color:var(--yellow);}
+.info-row h4{font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray); margin-bottom:6px;}
+.info-row p{font-size:15px; line-height:1.6;}
+.map-placeholder{
+  margin-top:32px; height:180px; background:var(--charcoal); border:1px solid var(--charcoal-2);
+  display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden;
+  cursor:pointer; transition:border-color .2s ease;
+}
+.map-placeholder:hover{border-color:var(--yellow-dim);}
+.map-placeholder .grid-lines{position:absolute; inset:0; background-image:linear-gradient(var(--charcoal-2) 1px,transparent 1px),linear-gradient(90deg,var(--charcoal-2) 1px,transparent 1px); background-size:24px 24px; opacity:.6;}
+.map-placeholder span{font-family:'Roboto Mono',monospace; font-size:12px; color:var(--gray); z-index:1; direction:rtl; padding:0 20px; text-align:center;}
+.pin{width:14px;height:14px;background:var(--yellow);border-radius:50% 50% 50% 0;transform:rotate(-45deg);position:absolute; z-index:1;}
+
+.form-field{margin-bottom:20px;}
+.form-field label{display:block; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--gray); margin-bottom:8px;}
+.form-field input,.form-field textarea,.form-field select{
+  width:100%; background:var(--charcoal); border:1px solid var(--charcoal-2); color:var(--white);
+  padding:14px 16px; font-family:'Work Sans',sans-serif; font-size:14px; outline:none;
+  transition:border-color .2s ease;
+}
+.form-field input:focus,.form-field textarea:focus,.form-field select:focus{border-color:var(--yellow);}
+.form-field textarea{resize:vertical; min-height:100px;}
+.form-note{font-size:12px; color:var(--gray-dim); margin-top:6px;}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--charcoal); padding:64px 0 28px; border-top:1px solid var(--charcoal-2);}
+.footer-grid{display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:40px; padding-bottom:48px;}
+.footer-col h4{font-size:13px; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:20px; color:var(--gray);}
+.footer-col p{color:var(--gray); font-size:14px; line-height:1.7;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:12px;}
+.footer-col a{color:var(--gray); font-size:14px; transition:color .2s ease;}
+.footer-col a:hover{color:var(--yellow);}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; padding-top:28px; border-top:1px solid var(--charcoal-2); font-size:12px; color:var(--gray-dim); font-family:'Roboto Mono',monospace;}
+.social-row{display:flex; gap:14px;}
+.social-row a{width:34px; height:34px; border:1px solid var(--charcoal-2); display:flex; align-items:center; justify-content:center; transition:border-color .2s ease, color .2s ease;}
+.social-row a:hover{border-color:var(--yellow); color:var(--yellow);}
+
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:980px){
+  .nav-links, .nav-cta{display:none;}
+  .burger{display:flex;}
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-figure{height:340px; order:-1;}
+  .hero-stats{flex-wrap:wrap; gap:18px;}
+  .hero-stats div{padding-right:0; margin-right:0; border-right:none; width:45%;}
+  .manifesto{grid-template-columns:1fr;}
+  .manifesto-divider{display:none;}
+  .programs-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .payment-grid{grid-template-columns:1fr;}
+  .price-card.featured{transform:scale(1);}
+  .coach-grid{grid-template-columns:repeat(2,1fr);}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .gallery-tile:nth-child(1){grid-column:span 2;}
+  .contact-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr; gap:32px;}
+  section{padding:80px 0;}
+  .member-form{grid-template-columns:1fr 1fr;}
+  .members-panel{padding:28px 22px;}
+}
+@media (max-width:560px){
+  .wrap{padding:0 20px;}
+  .coach-grid{grid-template-columns:1fr 1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  .footer-bottom{flex-direction:column; gap:14px; align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <nav>
+      <div class="logo-mark display">
+        <span class="f1">F1RST</span>&nbsp;<span class="gym">GYM</span>
+      </div>
+      <div class="nav-links">
+        <a href="#programs">Programs</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#pricing">Membership</a>
+        <a href="#coaches">Coaches</a>
+        <a href="#members">Members</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <button class="btn btn-fill nav-cta" onclick="document.getElementById('contact').scrollIntoView()">Join Now</button>
+      <button class="burger" id="burgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="bolt-bg"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Open 7 days · Cairo</div>
+      <h1>BE THE<br><span class="accent">F1RST</span><br>TO SHOW UP.</h1>
+      <p>F1RST GYM is built for people who train before excuses wake up. Strength, conditioning, and coaching that pushes you past where you stopped yesterday.</p>
+      <div class="hero-actions">
+        <button class="btn btn-fill" onclick="document.getElementById('pricing').scrollIntoView()">Start Free Trial</button>
+        <button class="btn btn-line" onclick="document.getElementById('schedule').scrollIntoView()">View Schedule</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num">1,200+</div><div class="label">Active Members</div></div>
+        <div><div class="num">24/7</div><div class="label">Access</div></div>
+        <div><div class="num">18</div><div class="label">Coaches</div></div>
+        <div><div class="num">9</div><div class="label">Years Strong</div></div>
+      </div>
+    </div>
+    <div class="hero-figure">
+      <svg viewBox="0 0 300 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M150 30 C170 30 185 45 185 70 C185 90 175 95 178 110 L150 120 L122 110 C125 95 115 90 115 70 C115 45 130 30 150 30 Z" fill="#f5f5f0"/>
+        <path d="M150 30 C170 30 185 45 185 70 C185 90 175 95 178 110 L150 120 L150 30 Z" fill="#f4d500" opacity="0.85"/>
+        <path d="M60 150 C45 160 35 185 40 215 C44 240 60 255 80 260 L130 300 L150 290 L150 150 Z" fill="#f5f5f0"/>
+        <path d="M150 150 L150 290 L170 300 L220 260 C240 255 256 240 260 215 C265 185 255 160 240 150 Z" fill="#f4d500"/>
+        <circle cx="68" cy="170" r="26" fill="#f5f5f0" opacity="0.9"/>
+        <circle cx="68" cy="170" r="10" fill="#1a1a1a"/>
+        <circle cx="232" cy="170" r="26" fill="#f4d500" opacity="0.9"/>
+        <circle cx="232" cy="170" r="10" fill="#1a1a1a"/>
+        <path d="M150 290 L130 360 L150 360 L140 410 L185 340 L160 340 L172 290 Z" fill="#f5f5f0" opacity="0.95"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MANIFESTO SPLIT ===== -->
+<section class="manifesto" style="padding:0;">
+  <div class="manifesto-half dark reveal">
+    <h3>No second<br>place.</h3>
+    <p>Every program at F1RST GYM is built around one idea: you compete with who you were yesterday. We track your numbers, not your excuses, and our coaches are in the room with you, every rep.</p>
+  </div>
+  <div class="manifesto-divider"></div>
+  <div class="manifesto-half bright reveal">
+    <h3>Train smart.<br>Train first.</h3>
+    <p>Strength training, conditioning, and recovery, programmed by coaches who compete themselves. Walk in once, and you'll see why members never miss a session.</p>
+  </div>
+</section>
+
+<!-- ===== PROGRAMS ===== -->
+<section id="programs">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">What We Train</div>
+      <h2>Programs built<br>around your goal.</h2>
+      <p class="sub">Pick a lane or mix all three. Every program is coached, scaled to your level, and tracked week over week.</p>
+    </div>
+  </div>
+  <div class="programs-grid reveal">
+    <div class="program-card">
+      <div class="program-num mono">01</div>
+      <h3>Strength &amp; Power</h3>
+      <p>Barbell-based programming focused on squat, bench, and deadlift progression. Built for raw strength gains.</p>
+      <div class="program-meta"><span>45 MIN</span><span>ALL LEVELS</span></div>
+    </div>
+    <div class="program-card">
+      <div class="program-num mono">02</div>
+      <h3>Conditioning</h3>
+      <p>High-output circuits mixing kettlebells, sleds, and bodyweight work. Built to torch fat and build engine.</p>
+      <div class="program-meta"><span>40 MIN</span><span>INT / ADV</span></div>
+    </div>
+    <div class="program-card">
+      <div class="program-num mono">03</div>
+      <h3>1-on-1 Coaching</h3>
+      <p>Private programming and in-person coaching for competition prep or fast-tracked personal goals.</p>
+      <div class="program-meta"><span>60 MIN</span><span>PRIVATE</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCHEDULE ===== -->
+<section id="schedule" style="background:var(--charcoal);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">This Week</div>
+      <h2>Gym hours.</h2>
+      <p class="sub">Separate hours for women and men, Saturday through Thursday. Closed on Fridays.</p>
+    </div>
+
+    <div class="reveal" style="overflow-x:auto; margin-bottom:18px;">
+      <div class="schedule-group-tag mono">Women — 8:00 AM to 5:00 PM</div>
+      <table class="schedule-table">
+        <thead>
+          <tr><th>Time</th><th>Class</th><th>Coach</th><th>Day</th><th>Spots</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="time mono">08:00</td><td class="class-name">Strength &amp; Power</td><td>—</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+          <tr><td class="time mono">10:00</td><td class="class-name">Conditioning</td><td>—</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+          <tr><td class="time mono">13:00</td><td class="class-name">Lunch Burn</td><td>—</td><td>Tue · Wed · Thu</td><td><span class="tag-pill">5 Left</span></td></tr>
+          <tr><td class="time mono">15:30</td><td class="class-name">Open Gym</td><td>—</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="reveal" style="overflow-x:auto;">
+      <div class="schedule-group-tag mono">Men — 6:00 PM to 4:00 AM</div>
+      <table class="schedule-table">
+        <thead>
+          <tr><th>Time</th><th>Class</th><th>Coach</th><th>Day</th><th>Spots</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="time mono">18:00</td><td class="class-name">Strength &amp; Power</td><td>Anas Rafat</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+          <tr><td class="time mono">19:30</td><td class="class-name">Conditioning</td><td>Yousef Rafat</td><td>Sat – Thu</td><td><span class="tag-pill">2 Left</span></td></tr>
+          <tr><td class="time mono">21:00</td><td class="class-name">Open Gym</td><td>—</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+          <tr><td class="time mono">00:30</td><td class="class-name">Late Night Lifting</td><td>—</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+          <tr><td class="time mono">02:30</td><td class="class-name">Open Gym</td><td>—</td><td>Sat – Thu</td><td><span class="tag-pill">Open</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRICING ===== -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">Membership</div>
+      <h2>Pick your plan.</h2>
+      <p class="sub">No lock-in contracts. Cancel or pause anytime from your account.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <div class="price-tier mono">Starter</div>
+        <div class="price-amount">300 LE</div>
+        <div class="price-period mono">/ month</div>
+        <ul class="price-list">
+          <li>Gym floor access</li>
+          <li>2 classes / week</li>
+          <li>Locker room access</li>
+          <li>Mobile app tracking</li>
+        </ul>
+        <button class="btn btn-line" onclick="choosePlan('Starter', '300 LE')">Choose Starter</button>
+      </div>
+      <div class="price-card featured">
+        <div class="featured-badge">Most Popular</div>
+        <div class="price-tier mono">Performance</div>
+        <div class="price-amount">500 LE</div>
+        <div class="price-period mono">/ month</div>
+        <ul class="price-list">
+          <li>24/7 gym floor access</li>
+          <li>Unlimited classes</li>
+          <li>Monthly body scan</li>
+          <li>1 free PT session / month</li>
+        </ul>
+        <button class="btn btn-fill" onclick="choosePlan('Performance', '500 LE')">Choose Performance</button>
+      </div>
+      <div class="price-card">
+        <div class="price-tier mono">Elite</div>
+        <div class="price-amount">1000 LE</div>
+        <div class="price-period mono">/ month</div>
+        <ul class="price-list">
+          <li>Everything in Performance</li>
+          <li>Weekly 1-on-1 coaching</li>
+          <li>Custom nutrition plan</li>
+          <li>Priority class booking</li>
+        </ul>
+        <button class="btn btn-line" onclick="choosePlan('Elite', '1000 LE')">Choose Elite</button>
+      </div>
+    </div>
+
+    <div class="payment-methods reveal">
+      <div class="payment-methods-head">
+        <h3>Payment Methods</h3>
+        <p>Pick a plan above, or pay directly using one of these.</p>
+      </div>
+      <div class="payment-grid">
+        <div class="payment-card">
+          <div class="payment-icon">📱</div>
+          <div class="payment-info">
+            <h4>Vodafone Cash</h4>
+            <div class="payment-value mono" id="vfCashNum">01098714197</div>
+          </div>
+          <button class="btn btn-line payment-copy" onclick="copyPayment('01098714197', this)">Copy</button>
+        </div>
+        <div class="payment-card">
+          <div class="payment-icon">⚡</div>
+          <div class="payment-info">
+            <h4>InstaPay</h4>
+            <div class="payment-value mono" id="instaPayNum">01098714197</div>
+          </div>
+          <button class="btn btn-line payment-copy" onclick="copyPayment('01098714197', this)">Copy</button>
+        </div>
+      </div>
+      <p class="payment-note">After paying, tap "Choose [plan]" above to send your payment screenshot and details straight to the gym on WhatsApp — your membership gets confirmed from there.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== COACHES ===== -->
+<section id="coaches" style="background:var(--charcoal);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">The Team</div>
+      <h2>Coaches who<br>train like you do.</h2>
+    </div>
+    <div class="coach-grid reveal coach-grid-2">
+      <div class="coach-card">
+        <div class="coach-photo">
+          <svg class="coach-figure" viewBox="0 0 300 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M150 20 C170 20 185 35 185 60 C185 80 175 85 178 100 L150 110 L122 100 C125 85 115 80 115 60 C115 35 130 20 150 20 Z" fill="#f5f5f0"/>
+            <path d="M150 20 C170 20 185 35 185 60 C185 80 175 85 178 100 L150 110 L150 20 Z" fill="#f4d500" opacity="0.85"/>
+            <path d="M60 140 C45 150 35 175 40 205 C44 230 60 245 80 250 L130 290 L150 280 L150 140 Z" fill="#f5f5f0"/>
+            <path d="M150 140 L150 280 L170 290 L220 250 C240 245 256 230 260 205 C265 175 255 150 240 140 Z" fill="#f4d500"/>
+            <circle cx="68" cy="160" r="24" fill="#f5f5f0" opacity="0.9"/>
+            <circle cx="68" cy="160" r="9" fill="#1d1d1d"/>
+            <circle cx="232" cy="160" r="24" fill="#f4d500" opacity="0.9"/>
+            <circle cx="232" cy="160" r="9" fill="#1d1d1d"/>
+          </svg>
+          <div class="coach-bolt"></div>
+        </div>
+        <div class="coach-name">Anas Rafat</div>
+        <div class="coach-role">Strength Coach</div>
+      </div>
+      <div class="coach-card">
+        <div class="coach-photo">
+          <svg class="coach-figure" viewBox="0 0 300 360" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1);">
+            <path d="M150 20 C170 20 185 35 185 60 C185 80 175 85 178 100 L150 110 L122 100 C125 85 115 80 115 60 C115 35 130 20 150 20 Z" fill="#f5f5f0"/>
+            <path d="M150 20 C170 20 185 35 185 60 C185 80 175 85 178 100 L150 110 L150 20 Z" fill="#f4d500" opacity="0.85"/>
+            <path d="M60 140 C45 150 35 175 40 205 C44 230 60 245 80 250 L130 290 L150 280 L150 140 Z" fill="#f5f5f0"/>
+            <path d="M150 140 L150 280 L170 290 L220 250 C240 245 256 230 260 205 C265 175 255 150 240 140 Z" fill="#f4d500"/>
+            <circle cx="68" cy="160" r="24" fill="#f5f5f0" opacity="0.9"/>
+            <circle cx="68" cy="160" r="9" fill="#1d1d1d"/>
+            <circle cx="232" cy="160" r="24" fill="#f4d500" opacity="0.9"/>
+            <circle cx="232" cy="160" r="9" fill="#1d1d1d"/>
+          </svg>
+          <div class="coach-bolt"></div>
+        </div>
+        <div class="coach-name">Yousef Rafat</div>
+        <div class="coach-role">Conditioning Coach</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">Inside The Gym</div>
+      <h2>The floor.</h2>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-tile"><img src="images/gym-floor-1.jpeg" alt="Free weights and dumbbell rack at F1RST GYM" loading="lazy"></div>
+      <div class="gallery-tile"><div class="gtile-bg"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="14" stroke="#f5f5f0" stroke-width="3"/></svg></div></div>
+      <div class="gallery-tile"><div class="gtile-bg"><svg viewBox="0 0 64 64" fill="none"><path d="M28 8 L40 8 L26 34 L36 34 L24 56 L26 36 L16 36 Z" fill="#f4d500"/></svg></div></div>
+      <div class="gallery-tile"><div class="gtile-bg"><svg viewBox="0 0 64 64" fill="none"><rect x="10" y="40" width="44" height="6" fill="#f5f5f0"/><rect x="14" y="20" width="6" height="26" fill="#f5f5f0"/><rect x="44" y="20" width="6" height="26" fill="#f5f5f0"/></svg></div></div>
+      <div class="gallery-tile"><div class="gtile-bg"><svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="22" r="10" fill="#f4d500"/><rect x="28" y="32" width="8" height="24" fill="#f5f5f0"/></svg></div></div>
+      <div class="gallery-tile"><div class="gtile-bg"><svg viewBox="0 0 64 64" fill="none"><rect x="8" y="8" width="48" height="48" stroke="#f5f5f0" stroke-width="2"/><path d="M28 16 L40 16 L26 36 L36 36 L24 52 L26 38 L16 38 Z" fill="#f4d500"/></svg></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MEMBERS MANAGEMENT ===== -->
+<section id="members" style="background:var(--charcoal);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">Members</div>
+      <h2>Membership list.</h2>
+      <p class="sub">Add a new member below. The list saves automatically and stays here for next time.</p>
+    </div>
+    <div class="members-panel reveal">
+      <form class="member-form" id="memberForm">
+        <div class="form-field"><label>Full Name</label><input type="text" id="mName" required placeholder="e.g. Ahmed Hassan"></div>
+        <div class="form-field"><label>Phone</label><input type="tel" id="mPhone" required placeholder="+20 ..."></div>
+        <div class="form-field"><label>Plan</label>
+          <select id="mPlan">
+            <option>Starter</option>
+            <option>Performance</option>
+            <option>Elite</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Start Date</label><input type="date" id="mDate" required></div>
+        <button type="submit" class="btn btn-fill">Add Member</button>
+      </form>
+
+      <div class="members-count mono" id="membersCount">Loading members…</div>
+      <div style="overflow-x:auto;">
+        <table class="schedule-table" id="membersTable">
+          <thead>
+            <tr><th>Name</th><th>Phone</th><th>Plan</th><th>Start Date</th><th></th></tr>
+          </thead>
+          <tbody id="membersBody"></tbody>
+        </table>
+      </div>
+      <p class="storage-note">In the Claude preview, this list is shared — anyone who opens this page can see and add to it. If you publish this site on your own hosting, "Add Member" will still work with no errors, but each device will keep its own saved list (not shared between visitors) unless you connect a real database — let me know if you'd like help setting that up.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker-strip">
+  <div class="ticker-track">
+    <span>NO EXCUSES <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg> FIRST IN, LAST OUT <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg> TRAIN HARD, RECOVER HARDER <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg> EVERY REP COUNTS <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg></span>
+    <span>NO EXCUSES <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg> FIRST IN, LAST OUT <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg> TRAIN HARD, RECOVER HARDER <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg> EVERY REP COUNTS <svg width="18" height="18" viewBox="0 0 24 24" fill="#050505"><path d="M13 2 L4 14 L11 14 L10 22 L20 9 L13 9 Z"/></svg></span>
+  </div>
+</div>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="section-tag">Get Started</div>
+      <h2>Your first session<br>is on us.</h2>
+      <p class="sub">Fill in your details and a coach will call you back within the day to book your free trial class.</p>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <div class="info-row">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><h4>Location</h4><p>نوى، شبين القناطر، محافظة القليوبية 6331096</p></div>
+        </div>
+        <div class="info-row">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div><h4>Hours</h4><p>Sat – Thu &nbsp;·&nbsp; Women: 8:00 AM – 5:00 PM &nbsp;·&nbsp; Men: 6:00 PM – 4:00 AM<br><span style="color:var(--yellow);">Closed on Fridays</span></p></div>
+        </div>
+        <div class="info-row">
+          <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>
+          <div><h4>Phone</h4><p><a href="tel:+201098714197" style="color:inherit;">01098714197</a></p></div>
+        </div>
+        <a href="https://maps.google.com/maps?ftid=0x145813ab7247a2cd:0xd58db28febf38120" target="_blank" rel="noopener" class="map-placeholder" style="text-decoration:none;">
+          <div class="grid-lines"></div>
+          <div class="pin" style="top:44%; left:48%;"></div>
+          <span>نوى · شبين القناطر · القليوبية — افتح في خرائط جوجل</span>
+        </a>
+      </div>
+      <form id="bookingForm">
+        <div class="form-field"><label>Full Name</label><input type="text" id="bName" required placeholder="Your name"></div>
+        <div class="form-field"><label>Phone</label><input type="tel" id="bPhone" required placeholder="+20 ..."></div>
+        <div class="form-field"><label>Interested In</label>
+          <select id="bInterest">
+            <option>Free Trial Class</option>
+            <option>Starter Membership</option>
+            <option>Performance Membership</option>
+            <option>Elite Membership</option>
+            <option>1-on-1 Coaching</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Message</label><textarea id="bMessage" placeholder="Anything we should know before your first session?"></textarea></div>
+        <button type="submit" class="btn btn-fill" style="width:100%; justify-content:center;">Book Free Trial</button>
+        <p class="form-note" id="formMsg" style="display:none; color:var(--yellow);">Opening WhatsApp — just hit send to reach the gym.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="logo-mark display" style="margin-bottom:18px;"><span class="f1">F1RST</span>&nbsp;<span class="gym">GYM</span></div>
+        <p>Train before excuses wake up. Strength, conditioning, and coaching for people who show up first.</p>
+        <div class="social-row" style="margin-top:22px;">
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#programs">Programs</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#pricing">Membership</a></li>
+          <li><a href="#coaches">Coaches</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Gym</h4>
+        <ul>
+          <li><a href="#">Free Trial</a></li>
+          <li><a href="#">Personal Training</a></li>
+          <li><a href="#">Nutrition Plans</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://maps.google.com/maps?ftid=0x145813ab7247a2cd:0xd58db28febf38120" target="_blank" rel="noopener">نوى، شبين القناطر، القليوبية</a></li>
+          <li><a href="tel:+201098714197">01098714197</a></li>
+          <li><a href="#">hello@first.gym</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Mido Khatib. All rights reserved.</span>
+      <span>FIRST IN. LAST OUT.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('solid', window.scrollY > 40);
+  });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  const burger = document.getElementById('burgerBtn');
+  burger.addEventListener('click', () => {
+    const links = document.querySelector('.nav-links');
+    const visible = links.style.display === 'flex';
+    links.style.display = visible ? 'none' : 'flex';
+    links.style.flexDirection = 'column';
+    links.style.position = 'fixed';
+    links.style.top = '64px';
+    links.style.left = '0';
+    links.style.right = '0';
+    links.style.background = 'rgba(5,5,5,0.97)';
+    links.style.padding = '24px 32px';
+    links.style.gap = '20px';
+  });
+  // ---- Members management ----
+  // Storage adapter: uses Claude's window.storage when available (works in the
+  // Claude preview), and falls back to the browser's own localStorage otherwise
+  // (so "Add Member" always works, even when this file is hosted elsewhere).
+  const hasClaudeStorage = (typeof window.storage !== 'undefined') && window.storage && typeof window.storage.set === 'function';
+  const storageAdapter = {
+    usingFallback: !hasClaudeStorage,
+    async list(prefix, shared){
+      if(hasClaudeStorage){
+        try{ return await window.storage.list(prefix, shared); }
+        catch(err){ this.usingFallback = true; }
+      }
+      const keys = Object.keys(localStorage).filter(k => k.indexOf(prefix) === 0);
+      return { keys };
+    },
+    async get(key, shared){
+      if(hasClaudeStorage && !this.usingFallback){
+        try{ return await window.storage.get(key, shared); }
+        catch(err){ /* fall through */ }
+      }
+      const value = localStorage.getItem(key);
+      if(value === null){ throw new Error('not found'); }
+      return { key, value, shared: !!shared };
+    },
+    async set(key, value, shared){
+      if(hasClaudeStorage && !this.usingFallback){
+        try{
+          const result = await window.storage.set(key, value, shared);
+          if(result){ return result; }
+        }catch(err){ /* fall through to local */ }
+      }
+      localStorage.setItem(key, value);
+      return { key, value, shared: !!shared };
+    },
+    async delete(key, shared){
+      if(hasClaudeStorage && !this.usingFallback){
+        try{
+          const result = await window.storage.delete(key, shared);
+          if(result){ return result; }
+        }catch(err){ /* fall through to local */ }
+      }
+      localStorage.removeItem(key);
+      return { key, deleted: true, shared: !!shared };
+    }
+  };
+
+  const memberForm = document.getElementById('memberForm');
+  const membersBody = document.getElementById('membersBody');
+  const membersCount = document.getElementById('membersCount');
+
+  async function loadMembers(){
+    try{
+      const list = await storageAdapter.list('members:', true);
+      const keys = (list && list.keys) ? list.keys : [];
+      if(keys.length === 0){
+        membersBody.innerHTML = '';
+        membersCount.textContent = 'No members yet — add the first one above.';
+        return;
+      }
+      const members = [];
+      for(const key of keys){
+        try{
+          const item = await storageAdapter.get(key, true);
+          if(item && item.value){ members.push({ key, data: JSON.parse(item.value) }); }
+        }catch(err){ /* skip unreadable entry */ }
+      }
+      members.sort((a,b) => (b.data.date || '').localeCompare(a.data.date || ''));
+      membersCount.textContent = members.length + ' member' + (members.length === 1 ? '' : 's');
+      membersBody.innerHTML = '';
+      members.forEach(m => {
+        const tr = document.createElement('tr');
+        const name = (m.data.name || '').replace(/</g,'&lt;');
+        const phone = (m.data.phone || '').replace(/</g,'&lt;');
+        const plan = (m.data.plan || '').replace(/</g,'&lt;');
+        const date = (m.data.date || '').replace(/</g,'&lt;');
+        tr.innerHTML =
+          '<td class="class-name">' + name + '</td>' +
+          '<td>' + phone + '</td>' +
+          '<td><span class="tag-pill">' + plan + '</span></td>' +
+          '<td class="mono">' + date + '</td>' +
+          '<td><button class="btn btn-line btn-del" data-key="' + m.key + '">Remove</button></td>';
+        membersBody.appendChild(tr);
+      });
+      membersBody.querySelectorAll('.btn-del').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          try{
+            await storageAdapter.delete(btn.getAttribute('data-key'), true);
+            loadMembers();
+          }catch(err){
+            btn.disabled = false;
+            alert('Could not remove this member. Please try again.');
+          }
+        });
+      });
+    }catch(err){
+      membersCount.textContent = 'No members yet — add the first one above.';
+    }
+  }
+
+  memberForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('mName').value.trim();
+    const phone = document.getElementById('mPhone').value.trim();
+    const plan = document.getElementById('mPlan').value;
+    const date = document.getElementById('mDate').value;
+    if(!name || !phone || !date) return;
+    const submitBtn = memberForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    try{
+      const id = 'members:' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+      await storageAdapter.set(id, JSON.stringify({ name, phone, plan, date }), true);
+      memberForm.reset();
+      await loadMembers();
+    }catch(err){
+      alert('Could not add this member. Please try again.');
+    }finally{
+      submitBtn.disabled = false;
+    }
+  });
+
+  loadMembers();
+
+  // ---- Booking form -> sends straight to the gym's WhatsApp ----
+  const GYM_WHATSAPP = '201098714197'; // 01098714197 in international format
+  const bookingForm = document.getElementById('bookingForm');
+  bookingForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('bName').value.trim();
+    const phone = document.getElementById('bPhone').value.trim();
+    const interest = document.getElementById('bInterest').value;
+    const message = document.getElementById('bMessage').value.trim();
+    if(!name || !phone) return;
+
+    let text = 'تسجيل جديد من موقع F1RST GYM\n';
+    text += 'الاسم: ' + name + '\n';
+    text += 'الهاتف: ' + phone + '\n';
+    text += 'مهتم بـ: ' + interest;
+    if(message){ text += '\nملاحظات: ' + message; }
+
+    const waLink = 'https://wa.me/' + GYM_WHATSAPP + '?text=' + encodeURIComponent(text);
+    document.getElementById('formMsg').style.display = 'block';
+    window.open(waLink, '_blank');
+    bookingForm.reset();
+  });
+
+  // ---- Plan selection -> sends payment confirmation request via WhatsApp ----
+  function choosePlan(planName, price){
+    let text = 'تسجيل اشتراك جديد من موقع F1RST GYM\n';
+    text += 'الخطة: ' + planName + '\n';
+    text += 'السعر: ' + price + ' / شهر\n';
+    text += 'هحول الدفع على فودافون كاش / انستاباي على نفس الرقم ده، وهبعتلكم صورة التحويل هنا.';
+    const waLink = 'https://wa.me/' + GYM_WHATSAPP + '?text=' + encodeURIComponent(text);
+    window.open(waLink, '_blank');
+  }
+
+  // ---- Copy payment number to clipboard ----
+  function copyPayment(value, btn){
+    const done = () => {
+      const original = btn.textContent;
+      btn.textContent = 'Copied';
+      setTimeout(() => { btn.textContent = original; }, 1800);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(value).then(done).catch(() => fallbackCopy(value, done));
+    }else{
+      fallbackCopy(value, done);
+    }
+  }
+  function fallbackCopy(value, done){
+    const tmp = document.createElement('input');
+    tmp.value = value;
+    document.body.appendChild(tmp);
+    tmp.select();
+    try{ document.execCommand('copy'); done(); }catch(err){ /* ignore */ }
+    document.body.removeChild(tmp);
+  }
+</script>
+
+</body>
+</html>
